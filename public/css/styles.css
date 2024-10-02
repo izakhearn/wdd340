@@ -60,6 +60,7 @@ nav {
   align-items: center;
   background-color: #282828;
   padding: 0.1rem;
+
 }
 
 nav ul {
@@ -70,6 +71,9 @@ nav ul {
 
 nav ul li {
   padding: 0 1rem;
+}
+nav ul li a {
+  text-decoration: none;
   color: white;
 }
 
@@ -198,6 +202,53 @@ nav ul li {
   font-family: 'Arial', sans-serif;
 }
 
+#inv-display{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  list-style: none;
+}
+
+#inv-display img{
+  width: 100%;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+#inv-display li{
+  list-style-type: none;
+  padding: 20px;
+  margin: 10px 0;
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  border: #000;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  transition: transform 0.3s ease
+}
+#inv-display li:hover{
+  background-color: #b5b3b3;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+
+#inv-display h3{
+  text-align: center;
+}
+
+.fun-message{
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #000;
+}
+
+.fun-message img{
+  border-radius: 10px;
+}
 /* Mobile styles (for screens 900px or smaller) */
 @media only screen and (max-width: 900px) {
   body {
@@ -229,7 +280,6 @@ nav ul li {
 
   #dil {
     grid-template-columns: 1fr;
-    grid-row: repeat(4, 1fr);
     grid-gap: 10px;
   }
 
@@ -261,5 +311,28 @@ nav ul li {
   #dil-reviews ul{
     padding: 1em;
   
+  }
+
+  #inv-display{
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+
+  #inv-display img{
+    width: 100%;
+    height: auto;
+  }
+
+  #inv-display li{
+    padding: 5px;
+  }
+
+  .fun-message{
+    font-size: 1em;
+  }
+
+  .fun-message img{
+    width: 100%;
+    height: auto;
   }
 }

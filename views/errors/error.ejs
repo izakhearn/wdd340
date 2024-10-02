@@ -1,0 +1,18 @@
+
+
+
+
+    <!-- Fun humor to lighten the error message -->
+    <div class="fun-message">
+        <% if (title) { %>
+            <h1>
+                <%= title %>
+            </h1>
+            <% } else { res.redirect('/') } %>
+        <p><%- message %></p>
+        <p>Maybe it got sucked into a black hole?</p>
+        <p>Don't worry, let's get you back to safety!</p>
+        <img src="./images/errors/404.webp" alt="Lost in Space" />
+        <p><a class="home-button" href="/">Go to Home</a></p>
+    </div>
+   
