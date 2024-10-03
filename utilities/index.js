@@ -24,7 +24,7 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-module.exports = Util
+
 
 Util.buildClassificationGrid = async function(data){
   let grid
@@ -35,7 +35,7 @@ Util.buildClassificationGrid = async function(data){
       grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      +'" alt=" '+ vehicle.inv_make + ' ' + vehicle.inv_model 
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
@@ -56,6 +56,32 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+Util.buildVehicleDetail = async function(data){
+  let detail
+  if(data.length > 0){
+    detail = '<div id="detail-display">'
+    data.forEach(vehicle => {
+     
+      detail += '<img src="../..' + vehicle.inv_image + '" alt=" ' 
+      + vehicle.inv_make + ' ' + vehicle.inv_model + ' on CSE Motors" />'
+       detail += '<div class="detail-content">'
+      detail += '<h2>Price: $' + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</h2>'
+      detail += '<h3>Year: ' + vehicle.inv_year + '</h3>'
+      detail += '<h3>Mileage: ' + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</h3>'
+      detail += '<h3>Color: ' + vehicle.inv_color + '</h3>'
+      detail += '<h3>Classification: ' + vehicle.classification_name + '</h3>'
+      detail += '<p>' + vehicle.inv_description + '</p>'
+      detail += '</div>'
+      detail += '</div>'
+    }
+    )
+  } else {
+    detail += '<p class="notice">Sorry, that vehicle could not be found.</p>'
+  }
+  return detail
+}
+
+module.exports = Util
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

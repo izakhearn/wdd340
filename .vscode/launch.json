@@ -9,25 +9,34 @@
             "url": "http://localhost:5500/",
             "webRoot": "${workspaceFolder}"
         },
-
         {
-            "name": "Launch via PNPM",
-            "request": "launch",
-            "runtimeArgs": [
-              "run",
-              "dev"
-            ],
-            "runtimeExecutable": "pnpm",
-            "skipFiles": [
-              "<node_internals>/**"
-            ],
-            "type": "node"
-          }
+          "name": "Launch Program",
+          "program": "${workspaceFolder}/server.js",
+          "request": "launch",
+          "skipFiles": [
+            "<node_internals>/**"
+          ],
+          "type": "node"
+        }
+
+        // {
+        //     "name": "Launch via PNPM",
+        //     "request": "launch",
+        //     "program": "${workspaceFolder}/server.js",
+        //     "runtimeArgs": [
+        //       "run",
+        //       "dev"
+        //     ],
+        //     "skipFiles": [
+        //       "<node_internals>/**"
+        //     ],
+        //     "type": "node"
+        //   }
     ],
     "compounds": [
         {
             "name": "Launch All",
-            "configurations": ["Launch localhost", "Launch via PNPM"],
+            "configurations": ["Launch localhost", "Launch Program"],
             "stopAll": true
         }
     ]

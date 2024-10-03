@@ -18,7 +18,7 @@ body {
   border-radius: 10px;
   border-color: rgb(88, 201, 239);
   align-items: center;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 2% auto;
   background-color: #ffffff;
 }
@@ -249,6 +249,62 @@ nav ul li a {
 .fun-message img{
   border-radius: 10px;
 }
+
+/* Styling the vehicle details section */
+#detail-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Default: Two columns for larger screens */
+  grid-gap: 20px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center; /* Vertically align image and content */
+}
+
+/* Styling the vehicle title (make and model) */
+#detail-display h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Styling the vehicle image */
+#detail-display img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Styling the price */
+#detail-display h2 {
+  font-size: 2rem;
+  color: #007BFF;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+/* Styling the year, color, and classification */
+#detail-display h3 {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Styling the description */
+#detail-display p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  text-align: left;
+  margin-top: 20px;
+}
+
 /* Mobile styles (for screens 900px or smaller) */
 @media only screen and (max-width: 900px) {
   body {
@@ -335,4 +391,8 @@ nav ul li a {
     width: 100%;
     height: auto;
   }
+
+  #detail-display {
+    grid-template-columns: 1fr; /* Single column layout for small screens */
+}
 }
