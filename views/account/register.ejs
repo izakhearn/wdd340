@@ -1,0 +1,58 @@
+<div class="form">
+    <% if (title) { %>
+        <h1>
+            <%= title %>
+        </h1>
+        <% } else { res.redirect('/') } %>
+        <%- messages() %>
+        <% if (errors) { %>
+            <ul class="notice">
+           <% errors.array().forEach(error => { %>
+             <li><%= error.msg %></li>
+          <%  }) %>
+           </ul>
+          <% } %>
+    <form action="/account/register" method="post">
+        <div class="form-group">
+            <label for="account_firstname">Name</label>
+            <input type="text" id="account_firstname" name="account_firstname" required value= "<%= locals.account_firstname %>">
+        </div>
+        <div class="form-group">
+            <label for="account_lastname">Surname</label>
+            <input type="text" id="account_lastname" name="account_lastname" required value= "<%= locals.account_firstlastname %>">
+        </div>
+        <div class="form-group">
+            <label for="account_email">Email</label>
+            <input type="email" id="account_email" name="account_email" required value= "<%= locals.account_email %>">
+        </div>
+        <div class="tooltip">
+        <div class="form-group password-group">
+            <label for="account_password">Password</label>
+            <input type="password" id="account_password" name="account_password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+            <span id="toggle-password" class="toggle-password">Show</span>
+            <span class="tooltiptext"><p>Your Password Should Contain the Following</p>
+            <ul>
+                <li>At least 12 characters</li>
+                <li>At least 1 uppercase letter</li>
+                <li>At least 1 number</li>
+                <li>At least 1 special character</li>
+            </ul>
+            </span>
+            </div>
+        </div>
+        <button type="submit">Register</button>
+        <p>Already have an account?<a href="login">Sign In</a></p>
+</div>
+<script>
+    const togglePassword = document.querySelector('#toggle-password');
+    const passwordField = document.querySelector('#account_password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // Toggle the type attribute of the password field
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Toggle the text of the toggle icon
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+</script>
