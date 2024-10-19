@@ -17,6 +17,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 const utilities = require("./utilities")
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 
 /* ***********************
@@ -42,6 +43,8 @@ app.use(function(req, res, next){
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
 /* ***********************
  * View Engine and Templates
@@ -71,12 +74,14 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {
     title: err.status || 'Server Error',
     message,
-    nav
+    nav,
+    tools
   })
 })
 /* ***********************

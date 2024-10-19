@@ -1,17 +1,25 @@
-    <% if (title) { %>
-        <h1>
-            <%= title %>
-        </h1>
-        <% } else { res.redirect('/') } %>
-            <%- messages() %>
-                <% if (errors) { %>
-                    <ul class="notice">
-                        <% errors.array().forEach(error=> { %>
-                            <li>
-                                <%= error.msg %>
-                            </li>
-                            <% }) %>
-                    </ul>
-                    <% } %>
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+    <% } else { res.redirect('/') } %>
+        <%- messages() %>
+            <% if (errors) { %>
+                <ul class="notice">
+                    <% errors.array().forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
 
                     <%- grid %>
+                    <div id="inventoryManagement">
+                        <h2>Manage Inventory</h2>
+                        <p>Select a Classification to be able to edit vehicles</p>
+                        <%- classificationSelect %>
+                            <table id="inventoryDisplay"></table>
+                            <noscript>JavaScript must be enabled to use this page.</noscript>
+                            <script src="../../js/inventory.js"></script>
+                    </div>

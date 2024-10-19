@@ -28,9 +28,11 @@ validate.checkClassificationData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
+    const tools = await utilities.getHeaderTools(req, res)
     res.render("inventory/add-classification", {
       title: "Add Classification",
       nav,
+      tools,
       errors,
       classification_name,
     });
@@ -74,11 +76,13 @@ validate.checkInventoryData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
+    const tools = await utilities.getHeaderTools(req, res)
     let data = await inventoryModel.getClassifications();
     let classifications = await utilities.buildClassificationDropdown(data);
     res.render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
+      tools,
       errors,
       inv_description,
       inv_year,
@@ -95,4 +99,36 @@ validate.checkInventoryData = async (req, res, next) => {
   next();
 };
 
+
+validate.checkUpdateData = async (req, res, next) => {
+  const {inv_id, inv_make, inv_model,inv_miles, inv_color, inv_price, classification_id,inv_year, inv_description,inv_image,inv_thumbnail } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    const tools = await utilities.getHeaderTools(req, res)
+    let data = await inventoryModel.getClassifications();
+    let classifications = await utilities.buildClassificationDropdown(data);
+    res.render("inventory/edit-inventory", {
+      title:  "Edit " + itemName,
+      nav,
+      tools,
+      errors,
+      inv_id,
+      inv_description,
+      inv_year,
+      inv_miles,
+      inv_make,
+      inv_model,
+      inv_color,
+      inv_price,
+      inv_image,
+      inv_thumbnail,
+      classification_id,
+      classifications,
+    });
+    return;
+  }
+  next();
+};
 module.exports = validate;

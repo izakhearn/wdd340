@@ -63,7 +63,7 @@ nav {
 
 }
 
-nav ul {
+nav ul,#tools ul {
   display: flex;
   list-style: none;
   justify-content: space-around;
@@ -318,7 +318,7 @@ nav ul li a {
 }
 
 /* Title styling */
-.form h1 {
+.form h1, .form h2 {
   text-align: center;
   color: #333;
   font-size: 24px;
@@ -344,6 +344,16 @@ nav ul li a {
 .form .form-group input,
 .form .form-group textarea,
 .form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #f9f9f9;
+}
+
+select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -486,6 +496,57 @@ input:required:valid, input:focus:valid {
 
 .management-card a:hover {
   background-color: #0056b3;
+}
+
+/* General table styling */
+#inventoryManagement table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  margin-bottom: 20px;
+}
+
+/* Table header styling */
+#inventoryManagement thead {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#inventoryManagement thead th, #inventoryManagement thead td {
+  padding: 10px;
+  border-bottom: 2px solid #ccc;
+  text-align: left;
+}
+
+/* Table body styling */
+#inventoryManagement tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#inventoryManagement tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+#inventoryManagement tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styling for action links */
+#inventoryManagement tbody td a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+#inventoryManagement tbody td a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Optional: Style empty table cells with non-breaking spaces */
+#inventoryManagement tbody td:empty {
+  padding: 10px;
 }
 
 /* Mobile styles (for screens 900px or smaller) */
