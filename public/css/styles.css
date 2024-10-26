@@ -549,6 +549,43 @@ input:required:valid, input:focus:valid {
   padding: 10px;
 }
 
+#user-tables-desktop {
+  width: 100%;
+  overflow-x: auto; /* Ensure horizontal scrolling if the table is too wide */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#user-tables-desktop table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#user-tables-desktop th, #user-tables-desktop td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc; /* Light border for table cells */
+}
+
+#user-tables-desktop th {
+  background-color: #f2f2f2; /* Light background for table headers */
+  font-weight: bold;
+}
+
+#user-tables-desktop td a {
+  margin-right: 10px;
+  color: #007bff; /* Link color */
+  text-decoration: none;
+}
+
+#user-tables-desktop td a:hover {
+  text-decoration: underline; /* Underline on hover for links */
+}
+
+#user-tables-mobile {
+  display: none;
+}
+
 /* Mobile styles (for screens 900px or smaller) */
 @media only screen and (max-width: 900px) {
   body {
@@ -647,4 +684,13 @@ input:required:valid, input:focus:valid {
 .form button[type="submit"] {
   padding: 10px;
 }
+
+#user-tables-desktop{
+  display: none;
 }
+
+#user-tables-mobile{
+  display: block;
+}
+}
+

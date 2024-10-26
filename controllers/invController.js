@@ -158,6 +158,7 @@ invCont.editInventoryView = async function (req, res, next) {
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
   const {
     inv_id,
     inv_make,
@@ -197,6 +198,7 @@ invCont.updateInventory = async function (req, res, next) {
     res.status(501).render("inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
+    tools,
     classificationSelect: classificationSelect,
     errors: null,
     inv_id,

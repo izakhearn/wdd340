@@ -235,5 +235,36 @@ validate.loginRules = () => {
     }
     next();
   };
+
+  validate.accountTypeRules = () => {
+    return [
+      // account_type is required and must be string
+      body("account_type")
+        .trim()
+        .escape()
+        .notEmpty()
+        .isLength({ min: 1 })
+        .withMessage("Please provide an account type."), // on error this message is sent.
+    ];
+  };
+
+  validate.checkAccountTypeData = async (req, res, next) => {
+    const { account_type } = req.body;
+    let errors = [];
+    errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav();
+      const tools = await utilities.getHeaderTools(req, res)
+      res.render("account/edit-account", {
+        errors,
+        title: "Update Account Information ",
+        nav,
+        tools,
+        account_type,
+      });
+      return;
+    }
+    next();
+  };
   
 module.exports = validate;

@@ -155,10 +155,116 @@ Util.buildAccountManagementGrid = async function(res){
     grid += '<a href="/inv/" title="Manage Inventory">Manage Inventory</a>'
     grid += '</div>'
     grid += '</li>'
+    if (res.locals.admin){
+      grid += '<li>'
+      grid += '<div class="management-card">'
+      grid += '<h2>Manage Users</h2>'
+      grid += '<img src="/images/site/edit-icon.svg">'
+      grid += '<a href="/account/manage-users" title="Manage Users">Manage Users</a>'
+      grid += '</div>'
+      grid += '</li>'
+  }
   }
     grid += '</ul>'
   return grid
 }
+
+Util.buildUserManagementGrid = async function(data){
+  let table 
+  table = '<table>'
+  table += '<thead>'
+  table += '<tr>'
+  table += '<th>First Name</th>'
+  table += '<th>Last Name</th>'
+  table += '<th>Email</th>'
+  table += '<th>Account Type</th>'
+  table += '<th>Actions</th>'
+  table += '</tr>'
+  table += '</thead>'
+  table += '<tbody>'
+  data.forEach(row => {
+    table += '<tr>'
+    table += '<td>' + row.account_firstname + '</td>'
+    table += '<td>' + row.account_lastname + '</td>'
+    table += '<td>' + row.account_email + '</td>'
+    table += '<td>' + row.account_type + '</td>'
+    table += '<td>'
+    table += '<a href="/account/update/' + row.account_id + '" title="Update ' + row.account_firstname + ' ' + row.account_lastname + ' account information">Update</a>'
+    table += '<a href="/account/delete/' + row.account_id + '" title="Delete ' + row.account_firstname + ' ' + row.account_lastname + ' account">Delete</a>'
+    table += '</td>'
+    table += '</tr>'
+  })
+  table += '</tbody>'
+  table += '</table>'
+  return table
+}
+
+Util.buildUserManagementGridMobile = async function(data){
+  let table 
+  table = '<ul id="management-cards">'
+  data.forEach(row => {
+    table += '<li>'
+    table += '<div class="management-card">'
+    table +='<table>'
+    table += '<tr>'
+    table += '<th>First Name:</th>'
+    table += '<td>' + row.account_firstname + '</td>'
+    table += '</tr>'
+    table += '<tr>'
+    table += '<th>Last Name:</th>'
+    table += '<td>' + row.account_lastname + '</td>'
+    table += '</tr>'
+    table += '<tr>'
+    table += '<th>Email:</th>'
+    table += '<td>' + row.account_email + '</td>'
+    table += '</tr>'
+    table += '<tr>'
+    table += '<th>Account Type:</th>'
+    table += '<td>' + row.account_type + '</td>'
+    table += '</tr>'
+    table += '</table>'
+    table += '<a href="/account/update/' + row.account_id + '" title="Update ' + row.account_firstname + ' ' + row.account_lastname + ' account information">Update</a>'
+    table += '<a href="/account/delete/' + row.account_id + '" title="Delete ' + row.account_firstname + ' ' + row.account_lastname + ' account">Delete</a>'
+    table += '</div>'
+    table += '</li>'
+  }
+  )
+  table += '</ul>'
+  return table
+}
+
+Util.buildAccountTypeForm = async function(account_id,selected){
+  let form
+  form = '<div class="form">'
+  form += '<h2>Update Account Type</h2>'
+  form += '<form action="/account/update-type/' + account_id + '" method="post">'
+  form += '<div class="form-group">'
+  form += '<label for="account_type">Account Type:</label>'
+  form += '<select name="account_type" id="account_type">'
+  if(selected == "Admin"){
+    form += '<option value="Admin" selected>Admin</option>'
+  } else {
+    form += '<option value="Admin">Admin</option>'
+  }
+  if(selected == "Employee"){
+    form += '<option value="Employee" selected>Employee</option>'
+  } else {
+    form += '<option value="Employee">Employee</option>'
+  }
+  if(selected == "Client"){
+    form += '<option value="Client" selected>Client</option>'
+  } else {
+    form += '<option value="Client">Client</option>'
+  }
+  form += '</select>'
+  form += '</div>'
+  form +='<button type="submit">Update Account Type</button>'
+  form += '</form>'
+  form += '</div>'
+  return form
+}
+
+
 
   
 /* ****************************************
@@ -179,6 +285,9 @@ Util.checkJWTToken = (req, res, next) => {
      res.locals.loggedin = 1
      if (res.locals.accountData.account_type =="Admin" || res.locals.accountData.account_type =="Employee")  {
       res.locals.management = 1
+      if (res.locals.accountData.account_type =="Admin")  {
+        res.locals.admin = 1
+      }
     }
      next()
     })

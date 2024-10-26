@@ -34,7 +34,7 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function registerAccount(req, res) {
   let nav = await utilities.getNav()
-
+  let tools = await utilities.getHeaderTools(req, res)
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 // Hash the password before storing
 let hashedPassword
@@ -46,6 +46,7 @@ try {
   res.status(500).render("account/register", {
     title: "Registration",
     nav,
+    tools,
     errors: null,
   })
 }
@@ -64,6 +65,7 @@ try {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      tools,
       errors: null,
     })
   } else {
@@ -71,6 +73,7 @@ try {
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      tools,
       errors: null,
     })
   }
@@ -81,6 +84,7 @@ try {
  * ************************************ */
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
+  let tools = await utilities.getHeaderTools(req, res)
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
@@ -88,6 +92,7 @@ async function accountLogin(req, res) {
    res.status(400).render("account/login", {
     title: "Login",
     nav,
+    tools,
     errors: null,
     account_email,
    })
@@ -109,6 +114,7 @@ async function accountLogin(req, res) {
       res.status(400).render("account/login", {
         title: "Login",
         nav,
+        tools,
         errors: null,
         account_email,
       })
@@ -145,11 +151,13 @@ async function buildUpdateAccount(req, res){
   let nav = await utilities.getNav()
   const tools = await utilities.getHeaderTools(req, res)
   const accountData = await accountModel.getAccountById(req.params.id)
-  if (!accountData) {
+  let typeForm = await utilities.buildAccountTypeForm(req.params.id,accountData.account_type)
+    if (!accountData) {
    req.flash("notice", "Please check your credentials and try again.")
    res.status(400).render("account/login", {
     title: "Login",
     nav,
+    tools,
     errors: null,
     account_email,
     })
@@ -163,6 +171,7 @@ async function buildUpdateAccount(req, res){
     account_firstname : accountData.account_firstname,
     account_lastname : accountData.account_lastname,
     account_id: req.params.id,
+    typeForm,
     errors: null
   })
 }
@@ -213,5 +222,70 @@ async function updateAccountPassword(req, res){
   }
 }
 
+async function buildManageUsers(req, res){
+  let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
+  const data = await accountModel.getAllAccounts()
+  let table = await utilities.buildUserManagementGrid(data)
+  let tableMobile = await utilities.buildUserManagementGridMobile(data)
+  res.render("account/manage-users", {
+    title: "Manage Users",
+    nav,
+    tools,
+    table,
+    tableMobile,
+    errors: null
+  })
+  
+}
 
-  module.exports = { buildLogin, buildRegister, registerAccount,accountLogin, buildManagement, logout, buildUpdateAccount, updateAccount, updateAccountPassword };
+// Delete Account View
+
+async function buildDeleteAccount(req, res){
+  let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
+  const account_id  = req.params.id
+  const accountData = await accountModel.getAccountById(account_id)
+  res.render("account/delete-confirmation", {
+    title: "Delete Account",
+    nav,
+    tools,
+    account_id,
+    account_firstname : accountData.account_firstname,
+    account_lastname : accountData.account_lastname,
+    account_email : accountData.account_email,
+    errors: null
+  })
+}
+
+async function deleteAccount(req, res){
+  let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
+  const { account_id } = req.body
+  const result = await accountModel.deleteAccount(account_id)
+  if (result) {
+    req.flash("notice", "Account deleted successfully")
+    res.redirect("/account/manage-users")
+  } else {
+    req.flash("notice", "Sorry, there was an error deleting the account")
+    res.redirect("/account/manage-users")
+  }
+}
+
+async function updateType(req, res){
+  let nav = await utilities.getNav()
+  const tools = await utilities.getHeaderTools(req, res)
+  const {  account_type } = req.body
+  account_id = req.params.id
+  const result = await accountModel.updateType(account_id, account_type)
+  if (result) {
+    req.flash("notice", "Account Type updated successfully")
+    res.redirect("/account/manage-users")
+  } else {
+    req.flash("notice", "Sorry, there was an error updating the account")
+    res.redirect("/account/manage-users")
+  }
+}
+
+
+  module.exports = { buildLogin, buildRegister, registerAccount,accountLogin, buildManagement, logout, buildUpdateAccount, updateAccount, updateAccountPassword, buildManageUsers, buildDeleteAccount, deleteAccount, updateType };

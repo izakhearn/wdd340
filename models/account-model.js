@@ -58,7 +58,7 @@ async function getAccountById (account_id
       [account_id])
     return result.rows[0]
   } catch (error) {
-    return new Error("No matching email found")
+    return new Error("No matching Account found")
   }
 }
 
@@ -90,4 +90,44 @@ async function checkExistingEmailIfChanged (account_email, account_id) {
   }
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccount, updateAccountPassword, checkExistingEmailIfChanged };
+async function getAllAccounts() 
+{
+  try {
+    const result = await pool.query('SELECT * FROM account')
+    return result.rows
+  } catch (error) {
+    return error.message
+  }
+  
+}
+
+async function getAccountTypes() {
+  try {
+    const result = await pool.query('SELECT DISTINCT account_type FROM account')
+    return result.rows
+  } catch (error) {
+    return error.message
+  }
+  
+}
+
+async function deleteAccount(account_id) {
+  try {
+    const sql = "DELETE FROM account WHERE account_id = $1"
+    return await pool.query(sql, [account_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+//Update account type
+async function updateType(account_id, account_type) {
+  try {
+    const sql = "UPDATE account SET account_type = $1 WHERE account_id = $2 RETURNING *"
+    return await pool.query(sql, [account_type, account_id])
+  } catch (error) {
+    return error.message
+  }
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccount, updateAccountPassword, checkExistingEmailIfChanged, getAllAccounts, getAccountTypes, deleteAccount, updateType };

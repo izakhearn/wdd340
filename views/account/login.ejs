@@ -34,6 +34,17 @@
             </div>
         <button type="submit">Login</button>
         <p>Don't have an account?<a href="register"> Sign up</a></p>
-
-
 </div>
+<script>
+    const togglePassword = document.querySelector('#toggle-password');
+    const passwordField = document.querySelector('#account_password');
+
+    togglePassword.addEventListener('click', function (e) {
+        // Toggle the type attribute of the password field
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        // Toggle the text of the toggle icon
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
+    });
+</script>
